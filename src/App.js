@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { evolve, take } from 'ramda';
+import Instance from './Instance';
+
+const sterlize = evolve({
+  PublicIpAddress: x => `${take(6, x)}0.123`,
+  InstanceId: x => `${take(6, x)}•••••`,
+});
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <ul className="list pl0 mt0 measure center">
+        { this.props.instances.map(instance =>
+          <Instance {...instance} key={instance.InstanceId} />
+        )}
+      </ul>
     );
   }
 }
