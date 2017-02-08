@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
+/* global url, path */
 /* @flow */
-const { compose, cond, filter, length, propEq, T } = require('ramda');
+const { cond, propEq, T } = require('ramda');
 const { Future } = require('ramda-fantasy');
 const menubar = require('menubar');
-const { dialog, ipcMain } = require('electron');
+const { dialog, ipcMain } = require('electron'); // eslint-disable-line import/no-extraneous-dependencies
 const { describeInstances, startInstances, stopInstances } = require('./ec2');
-const { START_INSTANCE } = require('./constants');
 const { runningInstanceCost } = require('./src/shared/ec2Utils');
 
 const startUrl = process.env.ELECTRON_START_URL || url.format({
@@ -31,7 +31,6 @@ menu.on('ready', () => {
   }).fork(
     err => dialog.showErrorBox('Couldn’t connect to AWS 😭', err.message),
     (res) => {
-
       Reservations = res;
       if (menu.window) {
         menu.window.webContents.send('updateInstances', Reservations);
@@ -44,7 +43,7 @@ menu.on('ready', () => {
 
   menu.on('show', () => {
     if (Reservations) {
-      menu.window.webContents.send('updateInstances', Reservations)
+      menu.window.webContents.send('updateInstances', Reservations);
     }
   });
 
@@ -54,7 +53,7 @@ menu.on('ready', () => {
   ipcMain.on('task', (event, task) => {
     cond([
       [isStart, t => startInstances({ DryRun: true, InstanceIds: [t.id] })],
-      [isStop,  t => stopInstances({ DryRun: true, InstanceIds: [t.id] })],
+      [isStop, t => stopInstances({ DryRun: true, InstanceIds: [t.id] })],
       [T, () => Future.reject('invalid task')],
     ])(task)
     .fork(

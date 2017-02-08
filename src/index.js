@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import { append, compose, reverse, sortBy } from 'ramda';
+import App from './App';
 import { getAllInstances, isRunning } from './shared/ec2Utils';
 
 const electron = window.require('electron');
-window.electron = electron;
 const ipcRenderer = electron.ipcRenderer;
-window.ipcRenderer = ipcRenderer
-
 
 const fakeInstance = {
   State: {
@@ -19,12 +16,13 @@ const fakeInstance = {
   InstanceId: 'i-12344123',
 };
 
-ipcRenderer.on('updateInstances', (event, args) => {
-  render(compose(reverse, sortBy(isRunning), append(fakeInstance), getAllInstances)(args));
-})
-
-const render = instances =>
+const render = (instances) => {
   ReactDOM.render(
     <App instances={instances} />,
-    document.getElementById('root')
+    document.getElementById('root'),
   );
+};
+
+ipcRenderer.on('updateInstances', (event, args) => {
+  render(compose(reverse, sortBy(isRunning), append(fakeInstance), getAllInstances)(args));
+});

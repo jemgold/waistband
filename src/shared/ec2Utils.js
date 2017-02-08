@@ -1,4 +1,4 @@
-import { compose, equals, filter, flatten, length, map, path, pluck, prop, sum } from 'ramda';
+import { compose, equals, filter, flatten, map, path, pluck, prop, sum } from 'ramda';
 
 // omg what a yak shave to find prices
 // Amazon's pricing API is a 90mb file(!)
