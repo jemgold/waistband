@@ -20,7 +20,9 @@ const startUrl = process.env.ELECTRON_START_URL || url.format({
 const menu = menubar({
   index: startUrl,
   alwaysOnTop: true,
+  resizable: false,
   width: 480,
+  height: 416,
   windowPosition: 'trayRight',
 });
 
