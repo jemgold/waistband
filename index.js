@@ -57,8 +57,8 @@ menu.on('ready', () => {
 
   ipcMain.on('task', (event, task) => {
     cond([
-      [isStart, t => startInstances({ DryRun: !isDev, InstanceIds: [t.id] })],
-      [isStop, t => stopInstances({ DryRun: !isDev, InstanceIds: [t.id] })],
+      [isStart, t => startInstances({ DryRun: isDev, InstanceIds: [t.id] })],
+      [isStop, t => stopInstances({ DryRun: isDev, InstanceIds: [t.id] })],
       [T, () => Future.reject('invalid task')],
     ])(task)
     .fork(
