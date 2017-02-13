@@ -24,7 +24,7 @@ type StartParams = {
 }
 export const startInstances = (params: StartParams) =>
   new Future((reject, resolve) => {
-    ec2.stopInstances(params, (err, data) => {
+    ec2.startInstances(params, (err, data) => {
       if (err) { reject(err); }
       if (data) { resolve(data); }
     });
