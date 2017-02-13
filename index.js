@@ -6,6 +6,8 @@ const path = require('path');
 const Future = require('fluture');
 const menubar = require('menubar');
 const { dialog, ipcMain } = require('electron'); // eslint-disable-line import/no-extraneous-dependencies
+require('electron-debug')({ showDevTools: true });
+const isDev = require('electron-is-dev');
 const { describeInstances, startInstances, stopInstances } = require('./ec2');
 const { runningInstanceCost } = require('./src/shared/ec2Utils');
 
@@ -53,8 +55,8 @@ menu.on('ready', () => {
 
   ipcMain.on('task', (event, task) => {
     cond([
-      [isStart, t => startInstances({ DryRun: true, InstanceIds: [t.id] })],
-      [isStop, t => stopInstances({ DryRun: true, InstanceIds: [t.id] })],
+      [isStart, t => startInstances({ DryRun: !isDev, InstanceIds: [t.id] })],
+      [isStop, t => stopInstances({ DryRun: !isDev, InstanceIds: [t.id] })],
       [T, () => Future.reject('invalid task')],
     ])(task)
     .fork(
