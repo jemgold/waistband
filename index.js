@@ -2,7 +2,7 @@
 /* global url, path */
 /* @flow */
 const { cond, propEq, T } = require('ramda');
-const { Future } = require('ramda-fantasy');
+const Future = require('fluture');
 const menubar = require('menubar');
 const { dialog, ipcMain } = require('electron'); // eslint-disable-line import/no-extraneous-dependencies
 const { describeInstances, startInstances, stopInstances } = require('./ec2');

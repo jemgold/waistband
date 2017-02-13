@@ -1,4 +1,4 @@
-const { Future } = require('ramda-fantasy');
+const Future = require('fluture');
 const AWS = require('aws-sdk');
 
 AWS.config.update({ region: 'us-west-2' });
@@ -11,33 +11,18 @@ type DescribeParams = {
   DryRun?: boolean
 }
 export const describeInstances = (params: DescribeParams) =>
-  new Future((reject, resolve) =>
-    ec2.describeInstances(params, (err, data) => {
-      if (err) { reject(err); }
-      if (data) { resolve(data); }
-    }),
-  );
+  Future.node(done => ec2.describeInstances(params, done));
 
 type StartParams = {
   InstanceIds: Array<id>,
   DryRun?: boolean,
 }
 export const startInstances = (params: StartParams) =>
-  new Future((reject, resolve) => {
-    ec2.startInstances(params, (err, data) => {
-      if (err) { reject(err); }
-      if (data) { resolve(data); }
-    });
-  });
+  Future.node(done => ec2.startInstances(params, done));
 
 type StopParams = {
   InstanceIds: Array<id>,
   DryRun?: boolean,
 }
 export const stopInstances = (params: StopParams) =>
-  new Future((reject, resolve) => {
-    ec2.stopInstances(params, (err, data) => {
-      if (err) { reject(err); }
-      if (data) { resolve(data); }
-    });
-  });
+  Future.node(done => ec2.stopInstances(params, done));
