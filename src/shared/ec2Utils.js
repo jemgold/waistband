@@ -1,4 +1,5 @@
-import { compose, equals, filter, flatten, map, path, pluck, prop, sum } from 'ramda';
+import { compose, equals, evolve, filter, flatten, map, path, pluck,
+  prop, sum, take } from 'ramda';
 
 // omg what a yak shave to find prices
 // Amazon's pricing API is a 90mb file(!)
@@ -70,6 +71,8 @@ export const states = {
   stopped: 'stopped',
 };
 
+// Instance
+
 // isRunning :: Instance -> bool
 export const isRunning = compose(
   equals(states.running),
@@ -80,6 +83,7 @@ export const isRunning = compose(
 export const getPrice = instance =>
   prices[instance.InstanceType];
 
+// Response
 // getAllInstances :: Response -> Instance[]
 export const getAllInstances = compose(
   flatten,
@@ -94,3 +98,9 @@ export const runningInstanceCost = compose(
   filter(isRunning),
   getAllInstances,
 );
+
+// Sterilize :: Instance -> Instance
+export const sterlize = evolve({
+  PublicIpAddress: x => `${take(6, x)}0.123`,
+  InstanceId: x => `${take(6, x)}•••••`,
+});
