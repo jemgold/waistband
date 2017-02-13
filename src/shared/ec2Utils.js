@@ -1,4 +1,4 @@
-import { compose, equals, evolve, filter, flatten, map, path, pluck,
+import { compose, concat, equals, evolve, filter, flatten, map, path, pluck,
   prop, sum, take } from 'ramda';
 
 // omg what a yak shave to find prices
@@ -83,6 +83,12 @@ export const isRunning = compose(
 export const getPrice = instance =>
   prices[instance.InstanceType];
 
+// Sterilize :: Instance -> Instance
+export const sterlize = evolve({
+  PublicIpAddress: compose(concat('0.123'), take(6)),
+  InstanceId: compose(concat('•••••'), take(6)),
+});
+
 // Response
 // getAllInstances :: Response -> Instance[]
 export const getAllInstances = compose(
@@ -98,9 +104,3 @@ export const runningInstanceCost = compose(
   filter(isRunning),
   getAllInstances,
 );
-
-// Sterilize :: Instance -> Instance
-export const sterlize = evolve({
-  PublicIpAddress: x => `${take(6, x)}0.123`,
-  InstanceId: x => `${take(6, x)}•••••`,
-});
