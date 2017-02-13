@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-/* global url, path */
 /* @flow */
 const { cond, propEq, T } = require('ramda');
+const url = require('url');
+const path = require('path');
 const Future = require('fluture');
 const menubar = require('menubar');
 const { dialog, ipcMain } = require('electron'); // eslint-disable-line import/no-extraneous-dependencies
