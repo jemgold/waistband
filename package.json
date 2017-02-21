@@ -5,6 +5,7 @@
   "devDependencies": {
     "aws-sdk-flow-decls": "^1.2.1",
     "electron": "^1.4.15",
+    "electron-packager": "^8.5.1",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
